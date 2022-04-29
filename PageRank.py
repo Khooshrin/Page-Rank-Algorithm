@@ -1,3 +1,4 @@
+from operator import itemgetter
 from scipy import linalg
 import numpy as np
 import pandas as pd
@@ -90,8 +91,16 @@ res=[]
 index=0
 for x in eigenval:
     if x==1:
-        res.append(eigenleftvector[:,index])
+        res=eigenleftvector[:,index]
     index=index+1
+
+index=1
+result=[]
+for x in res:
+    result.append([index,res[index-1]])
+    index=index+1
+
+result=sorted(result,key=itemgetter(1),reverse=True)
 
 '''Displaying the principal left eigenvalue which indicates the probability of being on each webpage.
    The higher the probability, the greater rank of that web-page.
@@ -100,8 +109,16 @@ for x in eigenval:
 #Displaying the principal left eigenvector which indicated the probability of reaching the webpage with that node value
 print("Principal Left Eigenvector without Random Teleportations:\n")
 for x in res:
+    print(x,end="  ")
+print("\n")
+
+print("Page Rankings:\nRank\tPage No\tProbablity")
+index=1
+for x in result:
+    print(index,end="\t")
     for j in x:
-        print(j,end="  ")
+        print(j,end="\t")
+    index=index+1
     print("\n")
 
 '''Using python's linear algebra module in the scientific calculations library to calculate the
@@ -129,7 +146,7 @@ for x in eigenval:
     index=index+1
 
 #Storing the value of the principal left eigenvector
-res.append(eigenleftvector[:,maxeigenvalueindex])
+res=eigenleftvector[:,maxeigenvalueindex]
 
 '''Displaying the principal left eigenvalue which indicates the probability of being on each webpage.
    The higher the probability, the greater rank of that web-page.
@@ -138,7 +155,22 @@ res.append(eigenleftvector[:,maxeigenvalueindex])
 #Displaying the principal left eigenvector which indicated the probability of reaching the webpage with that node value
 print("Principal Left Eigenvector with Random Teleportations:\n")
 for x in res:
-    for j in x:
-        print(j,end="  ")
-    print("\n")  
+    print(x,end="  ")
+print("\n")
 
+index=1
+result=[]
+for x in res:
+    result.append([index,res[index-1]])
+    index=index+1
+
+result=sorted(result,key=itemgetter(1),reverse=True)
+
+print("Page Rankings:\nRank\tPage No\tProbablity")
+index=1
+for x in result:
+    print(index,end="\t")
+    for j in x:
+        print(j,end="\t")
+    index=index+1
+    print("\n")
