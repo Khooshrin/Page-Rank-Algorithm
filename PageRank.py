@@ -26,8 +26,7 @@ PTMRT=[]           #Double dimensional matrix to store the transition matrix wit
 #Accept the connections of the graph from the user and store it in a lis
 print("Enter the start and end points for each connection\n")
 while(i<con):
-    start = int(input())
-    end = int(input())
+    start, end = [int(x) for x in input().split(',')]
     connections.append([start,end])
     i=i+1
 
