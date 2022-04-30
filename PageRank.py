@@ -33,6 +33,12 @@ while(i<con):
 outcon=[]   #List to store the number of out-going hyperlinks from a specific node
 j=1
 
+#Normalization function
+def normalise(x):
+    fac=np.linalg.norm(x)
+    x_n = x / fac
+    return fac, x_n
+
 '''Iterating through all the connections to calculate the number of outgoing links from that node
    to calculate the number of pages that can be reached from that webpage.'''
 
@@ -161,6 +167,86 @@ index=1
 result=[]
 for x in res:
     result.append([index,res[index-1]])
+    index=index+1
+
+result=sorted(result,key=itemgetter(1),reverse=True)
+
+print("Page Rankings:\nRank\tPage No\tProbablity")
+index=1
+for x in result:
+    print(index,end="\t")
+    for j in x:
+        print(j,end="\t")
+    index=index+1
+    print("\n")
+
+a = np.array(PTM)
+max_iterations = 1000
+atranspose = np.transpose(a)
+x=np.ones(len(a))
+y=np.ones(len(a))
+
+for i in range(max_iterations):
+    x = np.dot(a,x)
+    poweigenval, x = normalise(x)
+
+#poweigenval is the eigenval calculated using power iteration method
+
+for i in range(max_iterations):
+    y = np.dot(atranspose, y)
+    transpoweigen, y = normalise(y)
+
+#y is the lefteigenvector
+
+print("Principal Left Eigenvector without Random Teleportations using Power Iteration:\n")
+for x in y:
+    print(x,end="  ")
+print("\n")
+
+index=1
+result=[]
+for x in y:
+    result.append([index,y[index-1]])
+    index=index+1
+
+result=sorted(result,key=itemgetter(1),reverse=True)
+
+print("Page Rankings:\nRank\tPage No\tProbablity")
+index=1
+for x in result:
+    print(index,end="\t")
+    for j in x:
+        print(j,end="\t")
+    index=index+1
+    print("\n")
+
+a = np.array(PTMRT)
+max_iterations = 1000
+atranspose = np.transpose(a)
+x=np.ones(len(a))
+y=np.ones(len(a))
+
+for i in range(max_iterations):
+    x = np.dot(a,x)
+    poweigenval, x = normalise(x)
+
+#poweigenval is the eigenval calculated using power iteration method
+
+for i in range(max_iterations):
+    y = np.dot(atranspose, y)
+    transpoweigen, y = normalise(y)
+
+#y is the lefteigenvector
+
+print("Principal Left Eigenvector with Random Teleportations using Power Iteration:\n")
+for x in y:
+    print(x,end="  ")
+print("\n")
+
+index=1
+result=[]
+for x in y:
+    result.append([index,y[index-1]])
     index=index+1
 
 result=sorted(result,key=itemgetter(1),reverse=True)
